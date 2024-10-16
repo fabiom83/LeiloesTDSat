@@ -25,8 +25,8 @@ public class ProdutosDAO {
     ArrayList<ProdutosDTO> listagem = new ArrayList<>();
     String sql;
     
-    public void cadastrarProduto (ProdutosDTO produto) {
-        
+    public int cadastrarProduto (ProdutosDTO produto) {
+        int retorno = 0;
         conn = conectaDAO.connectDB();
         sql = "INSERT INTO produtos (nome, valor, status) VALUES (?,?,?)";
         try {
@@ -35,17 +35,15 @@ public class ProdutosDAO {
             prep.setString(1, produto.getNome().toUpperCase());
             prep.setInt(2, produto.getValor());
             prep.setString(3, produto.getStatus());
-            prep.executeUpdate();
+            retorno = prep.executeUpdate(); //Deve retornar 1
             conectaDAO.desconectar();
-            
+            return retorno;           
            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao conectar. Verifique se os Dados de Acesso ao BD " + ex.getMessage());
             conectaDAO.desconectar();
-        
+            return retorno;        
         }
-        
-        
     }
     
     public ArrayList<ProdutosDTO> listarProdutos(){
