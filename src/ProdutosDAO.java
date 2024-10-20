@@ -69,7 +69,23 @@ public class ProdutosDAO {
             return null;
         }
     }
-    
+    //ALTERA STATUS DO PRODUTO PARA 'VENDIDO'
+    public void venderProduto(int idProduto){
+        conn = conectaDAO.connectDB();
+        sql = "UPDATE produtos SET status = ? WHERE id = ?";
+        try {
+            prep = conn.prepareStatement(sql);
+            prep.setString(1, "Vendido");
+            prep.setInt(2, idProduto);
+            prep.executeUpdate();
+            conectaDAO.desconectar();
+                  
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao conectar. Verifique se os Dados de Acesso ao BD " + ex.getMessage());
+            conectaDAO.desconectar();
+                
+        }
+    }
     
     
         
